@@ -122,4 +122,56 @@ a:hover {
 img.socialIcon {
   height: 30px;
   width: 30px;
+
+  /* new animation-friendly defaults */
+  transform-origin: center;
+  will-change: transform, filter;
+  transition: transform 180ms cubic-bezier(.2,.9,.2,1), filter 220ms ease;
+  cursor: pointer;
+
+  /* subtle idle float so icons feel alive */
+  animation: social-float 4s ease-in-out infinite;
+}
+
+/* stagger the float a little for each icon (adjust count as needed) */
+img.socialIcon:nth-of-type(1) { animation-delay: 0s; }
+img.socialIcon:nth-of-type(2) { animation-delay: 0.15s; }
+img.socialIcon:nth-of-type(3) { animation-delay: 0.3s; }
+img.socialIcon:nth-of-type(4) { animation-delay: 0.45s; }
+
+/* hover & keyboard focus animation: pop + playful wiggle + shadow */
+img.socialIcon:hover,
+img.socialIcon:focus {
+  transform: translateY(-6px) scale(1.08) rotate(-4deg);
+  filter: drop-shadow(0 8px 14px rgba(78,86,126,0.18)) saturate(1.12);
+  animation: social-wiggle 560ms cubic-bezier(.2,.9,.2,1);
+  outline: none; /* keep keyboard focus visible via transform; customize if needed */
+}
+
+/* keyframes */
+@keyframes social-float {
+  0%   { transform: translateY(0) scale(1) rotate(0); }
+  50%  { transform: translateY(-4px) scale(1.01) rotate(0.5deg); }
+  100% { transform: translateY(0) scale(1) rotate(0); }
+}
+
+@keyframes social-wiggle {
+  0%   { transform: translateY(0) scale(1) rotate(0); }
+  28%  { transform: translateY(-8px) scale(1.095) rotate(-6deg); }
+  56%  { transform: translateY(-4px) scale(1.04) rotate(4deg); }
+  100% { transform: translateY(0) scale(1) rotate(0); }
+}
+
+/* Accessibility: respect users who prefer reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  img.socialIcon {
+    animation: none !important;
+    transition: none !important;
+  }
+  img.socialIcon:hover,
+  img.socialIcon:focus {
+    transform: translateY(-4px) !important;
+    filter: none !important;
+    animation: none !important;
+  }
 }
